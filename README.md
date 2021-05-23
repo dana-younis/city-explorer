@@ -89,10 +89,22 @@ It searches for areas and shows their location on the map
 Just take the link and write the name of the region in the search box>
 
 ## Architecture
-Locationq was used to grab the link and key
+Locationq was used to grab the link and key Plus a plugin for downloading the Axios library
 
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
+23/5/2021  11:39pm - Application now has a fully-functional express server, with a GET route for the location resource. 
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+
+
+
+
+Name of feature: ________adding functionality part________________________
+
+Estimate of time needed to complete: ___2hours__
+
+Start time: ____10pm_
+
+Finish time: ____12pm_
+
+Actual time needed to complete: 2hours_____
