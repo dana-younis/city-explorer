@@ -68,3 +68,43 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+
+
+
+
+# Asynchronous code, and APIs
+
+**Author**: Dana Younis
+**Version**: 1.0.0 
+
+## Overview
+It searches for areas and shows their location on the map
+
+## Getting Started
+Just take the link and write the name of the region in the search box>
+
+## Architecture
+Locationq was used to grab the link and key Plus a plugin for downloading the Axios library
+
+
+## Change Log
+23/5/2021  11:39pm - Application now has a fully-functional express server, with a GET route for the location resource. 
+
+
+
+
+
+Name of feature: ________adding functionality part________________________
+
+Estimate of time needed to complete: ___2hours__
+
+Start time: ____10pm_
+
+Finish time: ____12pm_
+
+Actual time needed to complete: 2hours_____
