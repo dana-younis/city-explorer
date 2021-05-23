@@ -9,7 +9,7 @@ class App extends React.Component {
       searchQuery: '',
       data:'',
       maps:false,
-      errorMessage:false
+      errorMessage:false,
     }
   }
 
@@ -56,19 +56,39 @@ class App extends React.Component {
           
           <input type='submit' value='Get Location'/>
         </form>
-
-        <p>{this.state.data.display_name}</p>
-
-      { this.state.maps &&
-        <img
-        src={`https://maps.locationiq.com/v3/staticmap?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&center=${this.state.data.lat},${this.state.data.lon}`} alt=''
+        <div>
+      {this.state.maps
+         &&<p>
+         Name: {this.state.data.display_name}
+        </p>}
+        {this.state.maps
+         && <p>
+        latitude:{this.state.data.lat}
+        </p>} 
+        {this.state.maps
+         && <p>
+        longitude: {this.state.data.lon}
+        </p>}
+        {this.state.maps
+         &&
+         <img
+         src={`https://maps.locationiq.com/v3/staticmap?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&center=${this.state.data.lat},${this.state.data.lon}`} alt=''
         />
       }
+          {this.state.errorMessage &&
+        <p>  error</p>
+      } 
+      </div>
+      
 
 
       </>
+      
     )
   }
 }
 
 export default App;
+
+
+
