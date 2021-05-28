@@ -1,126 +1,191 @@
 import React from 'react';
 import axios from 'axios';
-import Weather from './Weather';
+import Weather from './components/Weather';
+// import Movies from './components/Movies';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 
-
-
-
-class App extends React.Component {
-
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchQuery: '',
-      data: '',
-      maps: false,
+      data1: '',
+      Maps: false,
       errorMessage: false,
-      information: {},
+      weatherArray: [],
+      show1: false,
+      latitude: '',
+      longitude: '',
+      movieArray: [],
+      show2: false
     }
   }
 
-  getLocation = async (e) => {
-    e.preventDefault();
-
-
-    let URL = `https://eu1.locationiq.com/v1/search.php?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&q=${this.state.searchQuery}&format=json`;
 
 
 
-    //http://localhost:3101/Weather?city_name=Seattle&lon=-122.33207&lat=47.60621
 
-    let Location = await axios.get(URL);
-    // let Route = process.env.REACT_APP_SERVER;
-    // let lon = Math.round(this.state.data.lon);
-    // let lat = Math.round(this.state.data.lat);
+
+ 
+
+  getCity = async (event) => {
+    event.preventDefault();
+    
+    let ser = process.env.REACT_APP_SERVER;
+
+    let cityUrl = `https://eu1.locationiq.com/v1/search.php?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&q=${this.state.searchQuery}&format=json`;
+
+    try {
+      let cityResult = await axios.get(cityUrl);
+      this.setState({
+
+        data1: cityResult.data[0],
+        Maps: true,
+       
+        latitude: cityResult.data[0].lat,
+        longitude: cityResult.data[0].lon,
+       
+
+      })
+    }
+    catch (error) {
+      this.setState({
+        Maps: false,
+        errorMessage: true,
+     
+       
+      })
+    }
+  
+
+     
+   
+
+  try {
+  // const url = `http://localhost:3300/weather?city=amman&lon=35.9239625&lat=31.9515694`;
+  //  const url = `${ser}/weather?city=${this.state.searchQuery}&lon=${this.state.longitude}&lat=${this.state.latitude}`;
+
+  let weatherData1 = await axios.get(`${ser}/weather?city=${this.state.searchQuery}`);
+
+  this.setState({
+  weatherArray: weatherData1.data,
+  show1: true,
+
+  })
+  console.log(this.state.weatherArray);
+  } catch (error) {
+    this.setState({
+      weatherArray: error.response,
+      show1: false
+    })
+  }
+
+
+
+
+
 
 
     try {
 
-      // const urls = `${Route}/Weather?city_name=${this.state.searchQuery}&lon=${lon}&lat=${lat}`;
-      // const exp = await axios.get(urls);
+      let moviedata1 = await axios.get(`${ser}/movie?`, { params: { city: this.state.searchQuery } });
+
 
       this.setState({
-        data: Location.data[0],
-        maps: true,
-        // information: exp.data[0],
+        movieArray: moviedata1.data,
+        show2: true,
 
       })
-     
-      console.log(this.state.data);
-    }
-    catch {
+    } catch (error) {
       this.setState({
-        maps: false,
-        errorMessage: true
+        movieArray: error.message,
+        show2: false
       })
     }
-
   }
 
   updateSearchQuery = (event) => {
     this.setState({
       searchQuery: event.target.value
     })
-    console.log(this.state.searchQuery);
   }
 
 
-  render() {
+  render(){
     return (
       <>
+        <Row>
+          <Col>
 
-        <h1>City Explorer</h1>
-        <form onSubmit={this.getLocation}
-
-
-        >
-          <input type='text' placeholder='add a city' onChange={this.updateSearchQuery} />
-
-          <input type='submit' value='Get Location' />
-        </form>
-        <div>
-          {this.state.maps
-            && <p>
-              Name: {this.state.data.display_name}
-            </p>}
-          {this.state.maps
-            && <p>
-              latitude:{this.state.data.lat}
-            </p>}
-          {this.state.maps
-            && <p>
-              longitude: {this.state.data.lon}
-            </p>}
-          {this.state.maps
-            &&
-            <img
-              src={`https://maps.locationiq.com/v3/staticmap?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&center=${this.state.data.lat},${this.state.data.lon}`} alt=''
-              />
-             
-          }
+            <h1 className="bg-danger text-white">City Explorer</h1>
+            <Form onSubmit={this.getCity}>
 
 
+              <Form.Group controlId="formBasicEmail">
+                <Form.Control type="text" placeholder="Enter City Name" onChange={this.updateSearchQuery} size="sm" />
+              </Form.Group>
 
 
-{this.state.maps
-            &&
+              <Button type="submit" className="btn btn-danger active" size="sm"  >
+                Explore
+              </Button>
+
+            </Form>
            
-             <Weather cityName={this.state.searchQuery}    maps={this.state.maps}  lon={this.state.data.lon}  lat={this.state.data.lat} />
-          }
 
-        </div>
-          {this.state.errorMessage &&
-            <p>  error</p>
-          },
+        </Col>
+
+        </Row>
+          <Col> 
+
+             {/* <div className="card text-center">
+              <div className="card-header">
+                The cities
+  </div>
+              <div className="card-body">
+                <p className="card-title">Amman</p>
+                <p className="card-text">Seattle</p>
+                <p className="card-text">Paris </p>
+
+
+              </div> */}
+
+            {/* </div> */}
+            {this.state.Maps &&
+              <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=pk.5cfe5f9f2a57741c1a80641f27fa86d9&center=${this.state.data1.lat},${this.state.data1.lon}`} />
+                <Card.Body>
+                  <Card.Title>{this.state.data1.display_name}</Card.Title>
+                  <Card.Text>latitude {this.state.data1.lat}</Card.Text>
+                  <Card.Text>longitude {this.state.data1.lon}</Card.Text>
+                  
+
+                  
+                </Card.Body>
+
+              </Card>
+
+              }
+
+        </Col> 
 
 
 
+        
+        {this.state.show1 && <Weather weatherData={this.state.weatherArray} searchQuery={this.state.searchQuery}/>}
+
+        {/* {this.state.show2 && <Movies moviesData={this.state.movieArray} show2={this.state.show2}></Movies>} */}
+     
       </>
-
-    )
+    );
   }
 }
 
 export default App;
-
